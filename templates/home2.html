@@ -1,0 +1,155 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+</head>
+<style>
+    .no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+#box{
+    margin-top: 1%;
+    border-radius: 4px;
+}
+#left_main{
+    border-style: solid;
+    border-color: black;
+}
+</style>
+<body style="background-color: beige;">
+    <div class="nav-div" style="padding: 1%;">
+    <nav style="padding: 1%;border-color: black;border-radius: 3px;border-style: solid" class="navbar navbar-expand-lg navbar-light bg-warning">
+        <a class="navbar-brand" href="{% url 'home'%}">Dashboard</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ">
+            <li class="nav-item active">
+              <a class="nav-link" href="#">Relevance</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'intensity'%}">Intensity</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'likelihood'%}">Likelihood</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown link
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+
+<div  class="container overflow-hidden">
+    <div class="row gx-5">
+        <div class="col-sm-3 " id="boxes">
+            <div style="background-color: burlywood;" class="p-2 border " id="box">
+                <span style="font-size: larger;"><b>Total Sectors</b></span><br>
+                
+                <span style="margin-top: 2px;font-size: 1.3rem;">Ok</span>
+            </div>
+        </div>
+        <div class="col-sm-3" id="boxes">
+            <div style="background-color: cyan;" class="p-2 border" id="box">
+                <span style="font-size: larger;"><b>Total Region</b></span><br>
+                
+                <span style="margin-top: 2px;font-size: 1.3rem;">Ok</span>
+            </div>
+        </div>
+        <div class="col-sm-3 " id="boxes">
+            <div style="background-color: grey;" class="p-2 border " id="box">
+                <span style="font-size: larger;"><b>Total Country</b></span><br>
+                
+                <span style="margin-top: 2px;font-size: 1.3rem;">Ok</span>
+            </div>
+        </div>
+        <div class="col-sm-3" id="boxes">
+            <div style="background-color: chartreuse;" class="p-2 border " id="box">
+                <span style="font-size: larger;"><b>Total Source</b></span><br>
+                
+                <span style="margin-top: 2px;font-size: 1.3rem;">Ok</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="margin-left: 1%;">
+    <div class="row p-3">
+        <div class="col-sm-4 p-2 bg-light" style="overflow-wrap: break-word;" id="left_main">
+            <select id="pie_selector">
+                <option value="sector" selected>Sector</option>
+                <option value="region">Region</option>
+                <option value="country">Country</option>
+                <option value="source">Source</option>
+            </select>
+            <div>
+                <center>
+                    <canvas id="total_sector"></canvas>
+                </center>
+                <center>
+                    <canvas id="total_region"></canvas>
+                </center>
+                <center>
+                    <canvas id="total_country"></canvas>
+                </center>
+                <center>
+                    <canvas id="total_source"></canvas>
+                </center>
+                
+            </div>
+        </div>
+        <div class="col-sm-8">
+            asdfasfa
+        </div>
+
+    </div>
+</div>
+      
+    <script>
+        new Chart("total_sector", {
+        type: "pie",
+        data: {
+            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
+            datasets: [{
+            backgroundColor: ["#b91d47","#00aba9","#2b5797","#e8c3b9","#1e7145"],
+            data: [55, 49, 44, 24, 15]
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+            display: true,
+            text: "World Wide Wine Production"
+            }
+        }
+        });
+    </script>
+</body>
+
+</html>

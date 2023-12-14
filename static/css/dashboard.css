@@ -1,0 +1,28 @@
+
+  .sidebar {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 100;
+    padding: 70px 0 0 10px;
+    border-right: 1px solid #d3d3d3;
+    color: antiquewhite;
+  }
+  
+  .left-sidebar {
+    position: sticky;
+    top:0;
+    height: calc(100vh - 70px);
+  }
+  
+  .sidebar-nav li .nav-link {
+    color: white;
+    font-weight: 500;
+  }
+  main {
+    padding-top: 90px;
+  }
+  main .card {
+    margin-bottom: 20px;
+  }

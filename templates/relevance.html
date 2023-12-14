@@ -8,8 +8,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 </head>
 <style>
     .no-gutters {
@@ -24,8 +25,7 @@
 }
 </style>
 <body>
-
-  <div class="nav-div" style="padding: 1%;">
+    <div class="nav-div" style="padding: 1%;">
     <nav style="padding: 1%;border-color: black;border-radius: 3px;border-style: solid" class="navbar navbar-expand-lg navbar-light bg-warning">
         <a class="navbar-brand" href="{% url 'home'%}">Dashboard</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,11 +33,11 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
           <ul class="navbar-nav ">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'relevance'%}">Relevance</a>
-            </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#">Intensity</a>
+              <a class="nav-link" href="#">Relevance</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'intensity'%}">Intensity</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'likelihood'%}">Likelihood</a>
@@ -64,14 +64,14 @@
     <div class="container">
         <div class="row no-gutters">
             <div class="col no-gutters">
-                <canvas id="avg_intensity_sector"></canvas>
+                <canvas id="avg_sector"></canvas>
             </div>
             <div class="col no-gutters">
-                <canvas id="avg_intensity_region"></canvas>
+                <canvas id="avg_region"></canvas>
             </div>
             <div class="w-100"></div>
             <div class="col no-gutters">
-                <canvas id="avg_intensity_country"></canvas>
+                <canvas id="avg_country"></canvas>
             </div>
             <!-- <div class="col no-gutters">
                 <canvas id="avg_intensity_country"></canvas>
@@ -82,14 +82,14 @@
       
     <script>
         // Average by Sector
-        const ctx = document.getElementById('avg_intensity_sector');
+        const ctx = document.getElementById('avg_sector');
       
         new Chart(ctx, {
           type: 'bar',
           data: {
             labels: {{averages.sector.0|safe}},
             datasets: [{
-              label: 'Average intensity by sector',
+              label: 'Average relevance by sector',
               data: {{averages.sector.1|safe}},
               borderWidth: 3
             }]
@@ -104,13 +104,13 @@
         });
 
         // Average by Sector
-        const ctx2 = document.getElementById('avg_intensity_region');
+        const ctx2 = document.getElementById('avg_region');
         new Chart(ctx2, {
         type: 'bar',
         data: {
             labels: {{averages.region.0|safe}},
             datasets: [{
-            label: 'Average intensity by region',
+            label: 'Average relevance by region',
             data: {{averages.region.1|safe}},
             borderWidth: 3
             }]
@@ -125,13 +125,13 @@
         });
 
         // Average by Sector
-        const ctx3 = document.getElementById('avg_intensity_country');
+        const ctx3 = document.getElementById('avg_country');
         new Chart(ctx3, {
             type: 'bar',
             data: {
             labels: {{averages.country.0|safe}},
             datasets: [{
-                label: 'Average intensity by country',
+                label: 'Average relevance by country',
                 data: {{averages.country.1|safe}},
                 borderWidth: 3
             }]

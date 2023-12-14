@@ -3,5 +3,9 @@ from main import views
 
 urlpatterns = [
     path('',views.home,name="home"),
-    path('intensity',views.intensity_data,name="intensity")
+    path('intensity',views.intensity,name="intensity"),
+    path('likelihood',views.likelihood,name="likelihood"),
+    path('relevance',views.relevance,name="relevance"),
+
+    
 ]

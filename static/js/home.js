@@ -9,45 +9,45 @@ console.log(context.intensity.averages.sector)
 
 const ctx = document.getElementById('avg_intensity_sector');
 
-// new Chart(ctx, {
-//   type: 'bar',
-//   data: {
-//     labels: {{context.intensity.averages.sector.0|safe}},
-//     datasets: [{
-//       label: 'Average intensity by sector',
-//       data: {{intensity.averages.sector.1|safe}},
-//       borderWidth: 3
-//     }]
-//   },
-//   options: {
-//     scales: {
-//       y: {
-//         beginAtZero: true
-//       }
-//     }
-//   }
-// });
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: {{context.intensity.averages.sector.0|safe}},
+    datasets: [{
+      label: 'Average intensity by sector',
+      data: {{intensity.averages.sector.1|safe}},
+      borderWidth: 3
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
 
-// const ctx2 = document.getElementById('avg_intensity_region');
+const ctx2 = document.getElementById('avg_intensity_region');
 
-// new Chart(ctx2, {
-//   type: 'bar',
-//   data: {
-//     labels: {{intensity.averages.region.0|safe}},
-//     datasets: [{
-//       label: 'Average intensity by region',
-//       data: {{intensity.averages.region.1|safe}},
-//       borderWidth: 3
-//     }]
-//   },
-//   options: {
-//     scales: {
-//       y: {
-//         beginAtZero: true
-//       }
-//     }
-//   }
-// });
+new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: {{intensity.averages.region.0|safe}},
+    datasets: [{
+      label: 'Average intensity by region',
+      data: {{intensity.averages.region.1|safe}},
+      borderWidth: 3
+    }]
+  },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
 
     
 

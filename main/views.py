@@ -40,58 +40,22 @@ def home(request):
     # final={"everything":{context}}
     # print(context)
     print(avg_data("relevance"))
-    return render(request,'home.html',{'all':{json.dumps(context)}})
+    return render(request,'home2.html',{'all':{json.dumps(context)}})
 
-def average_data(pk):
-    context={pk:{"averages":{}}}
-    sort_by=["country","sector","region"]
-    for data in sort_by:
-        context[pk]["averages"][data]=[[],[]]
-        all=set(alldata.objects.values_list(data,flat=True))
-        all.remove("")
-        for i in all:
-            i_occurs=len(alldata.objects.filter(data=i))
-            avg_intensity_i=len(set(alldata.objects.filter(region=i).values_list(pk,flat=True)))/i_occurs
-            # context["intensity"]["averages"]["region"]=[[],[]]
-            context["intensity"]["averages"][data][0].append(i)
-            context["intensity"]["averages"][data][1].append(avg_intensity_i)
-    print(context)
-    return None
-
-def intensity_data(request):
-    context={"averages":{}}
-
-#Averge intensity by Sector
-    context["averages"]["sector"]=[[],[]]
-    all_sectors=set(alldata.objects.values_list('sector',flat=True))
-    all_sectors.remove("")
-    for sector in all_sectors:
-        sector_occurs=len(alldata.objects.filter(sector=sector))
-        avg_intensity_sector=len(set(alldata.objects.filter(sector=sector).values_list('intensity',flat=True)))/sector_occurs
-        context["averages"]["sector"][0].append(sector)
-        context["averages"]["sector"][1].append(avg_intensity_sector)
-
-#Averge intensity by region
-    context["averages"]["region"]=[[],[]]
-    all_region=set(alldata.objects.values_list('region',flat=True))
-    all_region.remove("")
-    for region in all_region:
-        region_occurs=len(alldata.objects.filter(region=region))
-        avg_intensity_region=len(set(alldata.objects.filter(region=region).values_list('intensity',flat=True)))/region_occurs
-        # context["intensity"]["averages"]["region"]=[[],[]]
-        context["averages"]["region"][0].append(region)
-        context["averages"]["region"][1].append(avg_intensity_region)
-
-#Averge intensity by Country
-    context["averages"]["country"]=[[],[]]
-    all_country=set(alldata.objects.values_list('country',flat=True))
-    all_country.remove("")
-    for country in all_country:
-        country_occurs=len(alldata.objects.filter(country=country))
-        avg_intensity_country=len(set(alldata.objects.filter(country=country).values_list('intensity',flat=True)))/country_occurs
-        context["averages"]["country"][0].append(country)
-        context["averages"]["country"][1].append(avg_intensity_country)
+def intensity(request):
+    context=avg_data("intensity")
+    # print(context)
     return render(request,'intensity.html',context)
+
+def likelihood(request):
+    context=avg_data("likelihood")
+    # print(context)
+    return render(request,'likelihood.html',context)
+
+def relevance(request):
+    context=avg_data("relevance")
+    # print(context)
+    return render(request,'relevance.html',context)
 
 def avg_data(ok):
     context={"averages":{}}
