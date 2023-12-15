@@ -5,13 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.3/dist/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
 </head>
 <style>
     .no-gutters {
@@ -72,28 +70,28 @@
             <div style="background-color: burlywood;" class="p-2 border " id="box">
                 <span style="font-size: larger;"><b>Total Sectors</b></span><br>
                 
-                <span style="margin-top: 2px;font-size: 1.3rem;">Ok</span>
+                <span style="margin-top: 2px;font-size: 1.3rem;">{{all.total.sector}}</span>
             </div>
         </div>
         <div class="col-sm-3" id="boxes">
             <div style="background-color: cyan;" class="p-2 border" id="box">
                 <span style="font-size: larger;"><b>Total Region</b></span><br>
                 
-                <span style="margin-top: 2px;font-size: 1.3rem;">Ok</span>
+                <span style="margin-top: 2px;font-size: 1.3rem;">{{all.total.region}}</span>
             </div>
         </div>
         <div class="col-sm-3 " id="boxes">
             <div style="background-color: grey;" class="p-2 border " id="box">
                 <span style="font-size: larger;"><b>Total Country</b></span><br>
                 
-                <span style="margin-top: 2px;font-size: 1.3rem;">Ok</span>
+                <span style="margin-top: 2px;font-size: 1.3rem;">{{all.total.country}}</span>
             </div>
         </div>
         <div class="col-sm-3" id="boxes">
             <div style="background-color: chartreuse;" class="p-2 border " id="box">
                 <span style="font-size: larger;"><b>Total Source</b></span><br>
                 
-                <span style="margin-top: 2px;font-size: 1.3rem;">Ok</span>
+                <span style="margin-top: 2px;font-size: 1.3rem;">{{all.total.source}}</span>
             </div>
         </div>
     </div>
@@ -102,17 +100,20 @@
 <div style="margin-left: 1%;">
     <div class="row p-3">
         <div class="col-sm-4 p-2 bg-light" style="overflow-wrap: break-word;" id="left_main">
-            <select id="pie_selector">
+            <div style="background-color:blueviolet;"><p style="text-align: center;color: yellow;font-size: larger;">Total data</p></div>
+            <center>
+            <select style="border-style: solid;border-color: black;" class="form-select form-select-sm mb-3" id="pie_selector">
                 <option value="sector" selected>Sector</option>
                 <option value="region">Region</option>
                 <option value="country">Country</option>
-                <option value="source">Source</option>
+                <option value="pestle">Pestle</option>
             </select>
+            </center>
             <div>
                 <center>
-                    <canvas id="total_sector"></canvas>
+                    <canvas id="total_data"></canvas>
                 </center>
-                <center>
+                <!-- <center>
                     <canvas id="total_region"></canvas>
                 </center>
                 <center>
@@ -120,36 +121,61 @@
                 </center>
                 <center>
                     <canvas id="total_source"></canvas>
-                </center>
+                </center> -->
                 
             </div>
         </div>
         <div class="col-sm-8">
-            asdfasfa
+            {{all.pie_data}}
         </div>
 
     </div>
 </div>
       
-    <script>
-        new Chart("total_sector", {
-        type: "pie",
-        data: {
-            labels: ["Italy", "France", "Spain", "USA", "Argentina"],
-            datasets: [{
-            backgroundColor: ["#b91d47","#00aba9","#2b5797","#e8c3b9","#1e7145"],
-            data: [55, 49, 44, 24, 15]
-            }]
-        },
-        options: {
-            responsive: true,
-            title: {
-            display: true,
-            text: "World Wide Wine Production"
-            }
+<script>
+    var data={{all.pie_data.1|safe}}
+    var label={{all.pie_data.0|safe}}
+    window.ok=new Chart("total_data", {
+    type: "pie",
+    data: {
+        labels: label,
+        datasets: [{
+        data:data
+        }]
+    },
+    options: {
+        responsive: true,
+        title: {
+        display: true,
+        text: "World Wide Wine Production"
         }
-        });
-    </script>
+    }
+    });
+    // };
+</script>
+<script>
+    let pie_label=[];
+    let pie_data=[];
+    $("#pie_selector").on('change',function(e){
+        window.ok.reset();
+        e.preventDefault();
+        $.ajax({
+            type: 'GET',
+            url: "{% url 'pie_data' %}",
+            data: {"data":this.value},
+            success: function (response) {
+                if(response.msg=="success"){
+                    window.ok.data.datasets[0].data=response.data;
+                    window.ok.data.labels=response.label;
+                    window.ok.update();
+                }
+            },
+            error: function (response) {
+                console.log(response)
+            }
+        })
+    })   
+</script>
 </body>
 
 </html>

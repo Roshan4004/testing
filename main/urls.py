@@ -6,6 +6,7 @@ urlpatterns = [
     path('intensity',views.intensity,name="intensity"),
     path('likelihood',views.likelihood,name="likelihood"),
     path('relevance',views.relevance,name="relevance"),
+    path('pie_data',views.pie_data,name="pie_data")
 
     
 ]
