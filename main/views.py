@@ -7,10 +7,23 @@ from django.core.serializers import serialize
 # Create your views here.
 
 def home(request):
-    context={"intensity":{"averages":{"sector":[[],[]],"region":[[],[]]}}}
+    context={}
     all= alldata.objects.all()
-    
-    # context["all"]=serialize('json',all)
+    tt=[]
+    # for mm in all:
+    #     for i in all:
+    #         if mm.intensity<i.intensity:
+    #             tt[]
+    # gg=alldata.objects.filter(intensity__gte=15)
+    # print(len(gg))
+    intense=all.order_by("-intensity").values().exclude(intensity= None)
+    relevant=all.order_by("-relevance").values().exclude(intensity= None)
+    likely=all.order_by("-likelihood").values().exclude(intensity= None)
+    context["ordered"]={"intense":intense,"relevant":relevant,"likely":likely}
+    # for i in oo:
+    #     print(i.intensity)
+
+    context["alldata"]=all
     pie_sector=[[],[]]
     ok=alldata.objects.values_list("sector",flat=True)
     for i in ok:

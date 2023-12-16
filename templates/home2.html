@@ -30,6 +30,12 @@
     border-style: solid;
     border-color: black;
 }
+#tooltiptext{
+    visibility: hidden;
+}
+#okk:hover #tooltiptext{
+    visibility: visible;
+}
 </style>
 <body style="background-color: beige;">
     <div class="nav-div" style="padding: 1%;">
@@ -99,7 +105,7 @@
 
 <div style="margin-left: 1%;">
     <div class="row p-3">
-        <div class="col-sm-4 p-2 bg-light" style="overflow-wrap: break-word;" id="left_main">
+        <div class="col-sm-4 p-2 bg-light" style="overflow-wrap: break-word;height: 100%" id="left_main">
             <div style="background-color:blueviolet;"><p style="text-align: center;color: yellow;font-size: larger;">Total data</p></div>
             <center>
             <select style="border-style: solid;border-color: black;" class="form-select form-select-sm mb-3" id="pie_selector">
@@ -125,8 +131,20 @@
                 
             </div>
         </div>
-        <div class="col-sm-8">
-            {{all.pie_data}}
+        <div class="col-sm-8" style="text-wrap:balance;">
+            <div style="border-style: solid;border-color: black;padding: 1%">
+                {%for i in all.ordered.intense%}
+                <div class="row">
+                    <div class="col-md-8">{{i.title}}</div>
+                    <div class="col-md-4"><span id="okk" style="float: left;">{{i.sector}}<span id="tooltiptext">Tooltip text</span></span><span style="float: right;">{{i.topic}}</span></div>
+                </div>
+                <!-- <div style="background-color: aquamarine;margin-top: 0.5%;padding: 1%;" >
+                    <span style="float: right;">{{i.sector}}</span>
+                    <span style="float: right;">{{i.topic}}</span>
+                    {{i.title}}<br>
+                </div> -->
+                {% endfor%}
+            </div>
         </div>
 
     </div>
