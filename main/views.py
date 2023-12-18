@@ -9,21 +9,14 @@ from django.core.serializers import serialize
 def home(request):
     context={}
     all= alldata.objects.all()
-    tt=[]
-    # for mm in all:
-    #     for i in all:
-    #         if mm.intensity<i.intensity:
-    #             tt[]
-    # gg=alldata.objects.filter(intensity__gte=15)
-    # print(len(gg))
+
     intense=all.order_by("-intensity").values().exclude(intensity= None)
     relevant=all.order_by("-relevance").values().exclude(intensity= None)
     likely=all.order_by("-likelihood").values().exclude(intensity= None)
     context["ordered"]={"intense":intense,"relevant":relevant,"likely":likely}
-    # for i in oo:
-    #     print(i.intensity)
 
     context["alldata"]=all
+
     pie_sector=[[],[]]
     ok=alldata.objects.values_list("sector",flat=True)
     for i in ok:
@@ -36,16 +29,34 @@ def home(request):
                 pie_sector[1].append(1)
     context["pie_data"]=pie_sector
     total={}
-    for i in ["sector","region","country","source"]:
+    filter_option={}
+    for i in ["sector","region","country","source","topic","pestle"]:
         number=set(alldata.objects.values_list(i,flat=True))
         number.remove("")
-        # context["total"]={}
         total[i]=len(number)
+        filter_option[i]=list(number)
     context["total"]=total
-    print(context)
+    context["filter_option"]=filter_option
+    # print(context)
     return render(request,'home2.html',{'all':context})
 
 def pie_data(request):
+    if is_ajax(request=request):
+        data_of=request.GET.get("data")
+        all=[[],[]]
+        ok=alldata.objects.values_list(data_of,flat=True)
+        for i in ok:
+            if not i == "":
+                if i in all[0]:
+                    index=all[0].index(i)
+                    all[1][index]=all[1][index]+1
+                else:
+                    all[0].append(i)
+                    all[1].append(1)
+        context={"msg":"success","label":all[0],"data":all[1]}
+        return JsonResponse(context)
+
+def orderd_list(request):
     if is_ajax(request=request):
         data_of=request.GET.get("data")
         all=[[],[]]
