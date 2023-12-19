@@ -49,25 +49,3 @@ new Chart(ctx2, {
   }
 });
 
-    
-
-// const ctx3 = document.getElementById('avg_intensity_country');
-
-// new Chart(ctx3, {
-//     type: 'bar',
-//     data: {
-//     labels: {{intensity.averages.country.0|safe}},
-//     datasets: [{
-//         label: 'Average intensity by country',
-//         data: {{intensity.averages.country.1|safe}},
-//         borderWidth: 3
-//     }]
-//     },
-//     options: {
-//     scales: {
-//         y: {
-//         beginAtZero: true
-//         }
-//     }
-//     }
-// });

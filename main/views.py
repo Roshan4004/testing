@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,HttpResponse
 from django.http import JsonResponse
 from .models import alldata
 import json
@@ -39,6 +39,71 @@ def home(request):
     context["filter_option"]=filter_option
     # print(context)
     return render(request,'home2.html',{'all':context})
+
+import ast
+from django.core import serializers 
+from django.db.models import Q
+def filter_all(request):
+    ok=alldata.objects.all()
+    if is_ajax(request=request) and request.method=="GET":
+        data_of=request.GET.get("final")
+        my_dict = ast.literal_eval(data_of)
+        if my_dict["pestle"]!=[]:
+                for j in my_dict["pestle"]:
+                    ok=ok.filter(pestle=j)
+        if my_dict["source"]!=[]:
+                for j in my_dict["source"]:
+                    ok=ok.filter(source=j)
+        if my_dict["topic"]!=[]:
+                for j in my_dict["topic"]:
+                    ok=ok.filter(topic=j)
+        if my_dict["sector"]!=[]:
+                for j in my_dict["sector"]:
+                    ok=ok.filter(sector=j)
+        if my_dict["region"]!=[]:
+                for j in my_dict["region"]:
+                    ok=ok.filter(region=j)
+        # print(my_dict["end_year"])
+        if my_dict["end_year"] != "" and my_dict["end_year"] != 0:
+            ok=ok.filter(end_year__lte=int(my_dict["end_year"]))
+        ok=serializers.serialize('json', ok)
+        context={"msg":"success","alldata":ok}
+        return JsonResponse(context)
+    else:
+        query_filters=request.POST.get("query_filters")
+        search_param=request.POST.get("search_param")
+        ok=alldata.objects.all()
+        if ast.literal_eval(query_filters) != "":
+            my_dict = ast.literal_eval(query_filters)
+            if my_dict["pestle"]!=[]:
+                    for j in my_dict["pestle"]:
+                        ok=ok.filter(pestle=j)
+            if my_dict["source"]!=[]:
+                    for j in my_dict["source"]:
+                        ok=ok.filter(source=j)
+            if my_dict["topic"]!=[]:
+                    for j in my_dict["topic"]:
+                        ok=ok.filter(topic=j)
+            if my_dict["sector"]!=[]:
+                    for j in my_dict["sector"]:
+                        ok=ok.filter(sector=j)
+            if my_dict["region"]!=[]:
+                    for j in my_dict["region"]:
+                        ok=ok.filter(region=j)
+            if my_dict["end_year"] != "" and my_dict["end_year"] != 0:
+                ok=ok.filter(end_year__lte=int(my_dict["end_year"]))
+        ok=ok.filter(Q(title__icontains=search_param) | Q(insight__icontains=search_param) | Q(source__icontains=search_param))
+        ok=serializers.serialize('json', ok)
+        context={"msg":"success","alldata":ok}
+        return JsonResponse(context)
+
+def individual_data(request):
+    pk=request.GET.get("pk")
+    if pk is not None and pk != "":
+        ok=alldata.objects.filter(pk=pk)
+        return render(request,'individual.html',{'ok':ok})
+    else:
+         return HttpResponse("Wrong ID")
 
 def pie_data(request):
     if is_ajax(request=request):

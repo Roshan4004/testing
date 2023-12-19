@@ -98,10 +98,6 @@ table th {
   }
   
   table td::before {
-    /*
-    * aria-label has no advantage, it won't be read inside a table
-    content: attr(aria-label);
-    */
     content: attr(data-label);
     float: left;
     font-weight: bold;
@@ -132,14 +128,7 @@ table th {
               <a class="nav-link" href="{% url 'likelihood'%}">Likelihood</a>
             </li>
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Dropdown link
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-              </div>
+              <a class="nav-link" onclick="scroll_to_all()">See All data</a>
             </li>
           </ul>
         </div>
@@ -209,40 +198,40 @@ table th {
             </div>
                 <div class="list-group" id="ordered_intensity">
                 {%for i in all.ordered.intense|slice:"5"%}
-                <a href="#" class="list-group-item list-group-item-action" aria-current="true" style="background-color: gray;color: white;">
+                <a id="ordered_links"  class="list-group-item list-group-item-action" aria-current="true" style="background-color: gray;color: white;">
                     <div class="d-flex w-100 justify-content-between">
                     <small style="font-size: larger;color:black"><b>{{i.intensity}}</b></small>
                     <h5 class="mb-1" style="margin-left: 1%;">{{i.title}}</h5>
                     <small><span style="padding: 2%;border-width: 1px;color:purple;font-size: larger;">{{i.pestle}}</span></small>
                     </div>
                     <p class="mb-1" style="margin-left: 4%;">"{{i.insight}}"</p>
-                    <small><button class="btn btn-sm btn-primary">Read more</button><span style="float: right;">{{i.region}}</span></small>
+                    <small><button onclick="window.location.href='/individual_data?pk={{i.id}}'" class="btn btn-sm btn-primary">Read more</button><span style="float: right;">{{i.region}}</span></small>
                 </a>
                 {% endfor%}
                 </div>
                 <div style="display: none;" class="list-group" id="ordered_relevancy">
                     {%for i in all.ordered.relevant|slice:"5"%}
-                    <a href="#" class="list-group-item list-group-item-action" aria-current="true" style="background-color: gray;color: white;">
+                    <a id="ordered_links" class="list-group-item list-group-item-action" aria-current="true" style="background-color: gray;color: white;">
                         <div class="d-flex w-100 justify-content-between">
                         <small style="font-size: larger;color:black"><b>{{i.relevance}}</b></small>
                         <h5 class="mb-1" style="margin-left: 1%;">{{i.title}}</h5>
                         <small><span style="padding: 2%;border-width: 1px;color:purple;font-size: larger;">{{i.pestle}}</span></small>
                         </div>
                         <p class="mb-1" style="margin-left: 4%;">"{{i.insight}}"</p>
-                        <small><button class="btn btn-sm btn-primary">Read more</button><span style="float: right;">{{i.region}}</span></small>
+                        <small><button onclick="window.location.href='/individual_data?pk={{i.id}}'" class="btn btn-sm btn-primary">Read more</button><span style="float: right;">{{i.region}}</span></small>
                     </a>
                     {% endfor%}
                 </div>
                 <div style="display: none;" class="list-group" id="ordered_likelihood">
                     {%for i in all.ordered.likely|slice:"5"%}
-                    <a href="#" class="list-group-item list-group-item-action" aria-current="true" style="background-color: gray;color: white;">
+                    <a id="ordered_links"  class="list-group-item list-group-item-action" aria-current="true" style="background-color: gray;color: white;">
                         <div class="d-flex w-100 justify-content-between">
                         <small style="font-size: larger;color:black"><b>{{i.likelihood}}</b></small>
                         <h5 class="mb-1" style="margin-left: 1%;">{{i.title}}</h5>
                         <small><span style="padding: 2%;border-width: 1px;color:purple;font-size: larger;">{{i.pestle}}</span></small>
                         </div>
                         <p class="mb-1" style="margin-left: 4%;">"{{i.insight}}"</p>
-                        <small><button class="btn btn-sm btn-primary">Read more</button><span style="float: right;">{{i.region}}</span></small>
+                        <small><button onclick="window.location.href='/individual_data?pk={{i.id}}'" class="btn btn-sm btn-primary">Read more</button><span style="float: right;">{{i.region}}</span></small>
                     </a>
                     {% endfor%}
                 </div>
@@ -258,9 +247,10 @@ table th {
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <input class="col-sm-2" id="year_input" style="display: none;" type="number" placeholder="End Year">
         <ul class="navbar-nav ">
-          <li class="nav-item active">
-            <a class="nav-link" onclick="">End Year</a>
+          <li class="nav-item">
+            <a class="nav-link" onclick="show_year()" id="year_btn">End Year</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" onclick="show_box('topic')">Topic</a>
@@ -284,7 +274,8 @@ table th {
               {% endfor %}
             </div>
           </li>
-          <button class="btn btn-secondary" onclick="filter()">Submit</button>
+          <button class="btn btn-secondary btn-sm" onclick="filter_call()">Submit</button>
+          <button id="clear_filter_btn" class="btn btn-primary btn-sm" onclick="filter_clear()" style="margin-left: 1px;display: none;">Clear</button>
         </ul>
       </div>
     </nav>
@@ -298,16 +289,17 @@ table th {
         </div>
     </nav>
     <nav style="margin-top: 1%;left: 1%;" class="navbar navbar-light bg-dark col-md-4 p-2">
-      <form >
+      <form id="search_param_form">
         <div class="row p-2">
           <div class="col-8">
-            <input type="text" class="form-control" placeholder="Enter to search">
+            <input type="text" class="form-control" placeholder="Enter to search" id="search_param">
           </div>
           <div class="col-4">
             <button type="submit" class="btn btn-primary">Search</button>
           </div>
-          <div class="col-sm-10" style="color: white;">
-            <input type="checkbox">  Check to search with filters
+          <div class="col-sm-12" style="color: white;">
+            <input type="radio" id="with_other_filter" name="ok">  Check to search with other filters<br>
+            <input type="radio" id="within_filter" name="ok">  Check to search within below table
           </div>
           
         </div>
@@ -348,8 +340,7 @@ table th {
     </p>
   </div>
 
-    <table style="margin-top: 1%;">
-        <caption>Statement Summary</caption>
+    <table style="margin-top: 1%;" id="main_table">
         <thead>
           <tr>
             <th scope="col">Title</th>
@@ -360,7 +351,7 @@ table th {
             <th scope="col">Link</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="primary_data">
         {% for i in all.alldata%}
             <tr>
                 <td data-label="Title">{{i.title}}</td>
@@ -368,9 +359,12 @@ table th {
                 <td data-label="Source">{{i.source}}</td>
                 <td data-label="PEST">{{i.pestle}}</td>
                 <td data-label="Start Year-End Year">{{i.start_year}}-{{i.end_year}}</td>
-                <td data-label="Link"><a href="{{i.url}}" class="btn btn-primary">Read more</a></td>
+                <td data-label="Link"><a href="http://127.0.0.1:8000/individual_data?pk={{i.pk}}" class="btn btn-primary">Read more</a></td>
             </tr>
         {%endfor%}
+        </tbody>
+        <tbody id="filterd_data" style="display: none;">
+          
         </tbody>
     </table>
 </div>
@@ -378,7 +372,10 @@ table th {
     <i class="fas fa-arrow-up">Go to Top</i>
 </button>
 <script>
-  window.final_filter={"pestle":[],"topic":[],"sector":[],"region":[],"source":[],"end_year":[]};
+  function scroll_to_all() {
+  document.getElementById('search_param_form').scrollIntoView();
+}
+  window.final_filter={"pestle":[],"topic":[],"sector":[],"region":[],"source":[],"end_year":0};
   all={{all.filter_option|safe}}
   function show_box(i){
     console.log($("#box_label").html())
@@ -439,6 +436,21 @@ table th {
     }
   }
 
+  function show_year(){
+    $("#year_input").css("display","")
+    $("#year_btn").css("display","none")
+  }
+  $("#year_input").on('change',function(e){
+    e.preventDefault();
+    window.final_filter.end_year=$("#year_input").val()
+    console.log(window.final_filter.end_year)
+  })
+
+  function filter_clear(){
+    $("#primary_data").css("display","");
+    $("#filterd_data").css("display","none");
+  }
+
   function filter(i,j){
     if (window.final_filter[j].includes(i) == false){
       $("#"+j+i).css("color","blue");
@@ -452,6 +464,82 @@ table th {
       if(window.final_filter[j].length==0){
         $("#main_"+j).css("display","none")}
     }
+  }
+
+  window.last_filter=""
+  function filter_call(){
+    if (JSON.stringify(window.final_filter) != JSON.stringify({"pestle":[],"topic":[],"sector":[],"region":[],"source":[],"end_year":[]})){
+      $.ajax({
+        type: 'GET',
+        url: "{% url 'filter_all' %}",
+        data: {
+        "final":JSON.stringify(window.final_filter)
+      },
+        success: function (response) {
+            if(response.msg=="success"){
+              $("#filterd_data").html("");
+              all_filtered=jQuery.parseJSON(response.alldata)
+              window.last_filter=window.final_filter
+              show_filtered_searched(all_filtered);
+            }
+        },
+        error: function (response) {
+            console.log(response)
+        }
+      })
+    }else{
+      console.log("No filters added")
+    }
+  }
+
+
+  $("#search_param_form").on('submit',function(e){
+    e.preventDefault()
+    if($("#within_filter").is(":checked")){
+      query_filter=window.last_filter
+    }else if($("#with_other_filter").is(":checked")){
+      query_filter=window.final_filter
+    }else{
+      query_filter=""
+    }
+    console.log(query_filter)
+    $.ajax({
+      type: 'POST',
+      url: "{% url 'filter_all' %}",
+      data: {
+      "query_filters":JSON.stringify(query_filter),
+      "search_param":$("#search_param").val(),
+      csrfmiddlewaretoken: '{{ csrf_token }}'
+    },
+      success: function (response) {
+          if(response.msg=="success"){
+            $("#filterd_data").html("");
+            window.last_filter=window.final_filter
+              all_filtered=jQuery.parseJSON(response.alldata)
+              show_filtered_searched(all_filtered);
+          }
+      },
+      error: function (response) {
+          console.log(response)
+      }
+    })
+  })
+
+  function show_filtered_searched(all_filtered){
+    for (var i = 0; i < all_filtered.length; ++i) {
+      $("#filterd_data").append(
+      "<tr>"+
+      "<td data-label='Title'>"+all_filtered[i].fields.title+"</td>"+
+      "<td data-label='Topic'>"+all_filtered[i].fields.topic+"</td>"+
+      "<td data-label='Source'>"+all_filtered[i].fields.source+"</td>"+
+      "<td data-label='PEST'>"+all_filtered[i].fields.pestle+"</td>"+
+      "<td data-label='Start Year-End Year'>"+all_filtered[i].fields.start_year+'-'+all_filtered[i].fields.end_year+"</td>"+
+      "<td data-label='Link'>"+"<a href='http://127.0.0.1:8000/individual_data?pk="+all_filtered[i].pk+"' class='btn btn-primary' >Read more</a>"+"</td>"+
+      "<tr>"
+    )}
+    $("#filterd_data").css("display","");
+    $("#primary_data").css("display","none");
+    $("#clear_filter_btn").css("display","");
   }
 
   function remove(i,j){
@@ -539,6 +627,8 @@ table th {
     });  
     
     $("#ordered_by").on('change',function(e){
+      $('#ordered_links').css('pointer-events','none');
+      $('#ordered_links').css('cursor', 'context-menu');
         var ok=this.value
         gg=ok.slice(ok.indexOf('_') + 1);
         $("#ordered_info").html(gg);
@@ -548,12 +638,6 @@ table th {
         $("#"+ok).css("display","block");
     });  
     
-    // function filter(){
-    //   $.ajax({
-    //     type:'GET'
-    //     url: "{% url 'pie_data' %}",
-    //   })
-    // }
 </script>
 </body>
 

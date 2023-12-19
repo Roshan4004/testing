@@ -58,9 +58,6 @@
     </div>
 
   <input style="display: none;" id="context" value='{{all}}'></input>
-    <!-- {%for i in all%}
-    <span>{{i.title}}</span><br>
-    {%endfor%} -->
     <div class="container">
         <div class="row no-gutters">
             <div class="col no-gutters">
@@ -73,15 +70,11 @@
             <div class="col no-gutters">
                 <canvas id="avg_country"></canvas>
             </div>
-            <!-- <div class="col no-gutters">
-                <canvas id="avg_intensity_country"></canvas>
-            </div> -->
         </div>
     </div>
       
       
     <script>
-        // Average by Sector
         const ctx = document.getElementById('avg_sector');
       
         new Chart(ctx, {
@@ -103,7 +96,6 @@
           }
         });
 
-        // Average by Sector
         const ctx2 = document.getElementById('avg_region');
         new Chart(ctx2, {
         type: 'bar',
@@ -123,8 +115,6 @@
             }
         }
         });
-
-        // Average by Sector
         const ctx3 = document.getElementById('avg_country');
         new Chart(ctx3, {
             type: 'bar',
