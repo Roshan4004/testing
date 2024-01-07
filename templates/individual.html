@@ -8,34 +8,141 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js" integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 <style>
-.all{
-    color: red;
-    font-size: large;
+#box{
+    margin-top: 1%;
+    border-radius: 4px;
 }
 </style>
 </head>
-<body>
-    <div style="padding: 2%;">
-        {% for i in ok%}
-        <a class="btn btn-primary" style="float: right;" href="{{i.url}}">Visit</a>
-        <center>
-            <span id="all">Title</span><h3>{{i.title}}</h3>
-            <span id="all">Source</span><h3>{{i.source}}</h3>
-            <span id="all">insight</span><h3>{{i.insight}}</h3>
-            <span id="all">topic</span><h3>{{i.topic}}</h3>
-            <span id="all">intensity</span><h3>{{i.intensity}}</h3>
-            <span id="all">sector</span><h3>{{i.sector}}</h3>
-            <span id="all">region</span><h3>{{i.region}}</h3>
-            <span id="all">start_year-end_year</span><h3>{{i.start_year}}-{{i.end_year}}</h3>
-            <span id="all">impact</span><h3>{{i.impact}}</h3>
-            <span id="all">added</span><h3>{{i.added}}</h3>
-            <span id="all">published</span><h3>{{i.published}}</h3>
-            <span id="all">country</span><h3>{{i.country}}</h3>
-            <span id="all">relevance</span><h3>{{i.relevance}}</h3>
-            <span id="all">pestle</span><h3>{{i.pestle}}</h3>
-            <span id="all">likelihood</span><h3>{{i.likelihood}}</h3>
-        </center>
-        {% endfor%}
+<body style="background-color: antiquewhite;">
+    <div style="font-size: larger;margin-top: 1%;">
+        <a class="btn btn-secondary btn-sm" href="{% url 'home'%}" style="float: right;">Home</a>
+        <center><h3><b>Individual Details</b></h1></center>
     </div>
+    {% for i in ok%}
+    <div class="row p-4">
+        <div class="col-sm-8" style="border-style: solid ;border-color: blue;font-size: 1.5em;color: black;border-radius: 1%;margin-top: 1%;font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;padding: 0.5%;">
+            {{i.title}}<br>
+            <span style="font-size: large;"><u><b>Insight</b></u> : {{i.insight}}</span><br>
+            <a class="btn btn-primary" href="{{i.url}}">Read More</a>
+        </div>
+        <div class="col-sm-4" style="border-style: solid ;border-color: blue;font-size: 1.5em;color: black;border-radius: 1%;margin-top: 1%;">
+            <span style="font-size: large;"><u>Start Year - End Year</u></span><br>
+            {{i.start_year}}-{{i.end_year}}<br>
+            <span style="font-size: large;"><u><b>Added</b></u> : {{i.added}}</span><br>
+            <span style="font-size: large;"><u><b>Published</b></u> : {{i.published}}</span>
+        </div>
+    </div>
+
+    <div  class="container ">
+        <div class="row gx-5">
+            <div class="col-sm-3 " id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border " id="box">
+                    <span style="font-size: larger;"><b>Sector</b></span><br>
+                    {%if i.sector == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.sector}}</span>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-sm-3" id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border" id="box">
+                    <span style="font-size: larger;color: blue;"><b>Region</b></span><br>
+                    {%if i.region == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.region}}</span>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-sm-3 " id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border " id="box">
+                    <span style="font-size: larger;color: brown;"><b>Country</b></span><br>
+                    {%if i.country == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.country}}</span>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-sm-3" id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border " id="box">
+                    <span style="font-size: larger;color: purple;"><b>Source</b></span><br>
+                    {%if i.source == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.source}}</span>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-sm-3 " id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border " id="box">
+                    <span style="font-size: larger;color: green;"><b>Intensity</b></span><br>
+                    {%if i.intensity == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.intensity}}</span>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-sm-3" id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border" id="box">
+                    <span style="font-size: larger;color: indianred;"><b>Likelihood</b></span><br>
+                    {%if i.likelihood == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.likelihood}}</span>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-sm-3 " id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border " id="box">
+                    <span style="font-size: larger;color: rebeccapurple;"><b>Relevance</b></span><br>
+                    {%if i.relevance == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.relevance}}</span>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-sm-3" id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border" id="box">
+                    <span style="font-size: larger;color: orangered;"><b>Topic</b></span><br>
+                    {%if i.topic == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.topic}}</span>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-sm-3" id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border" id="box">
+                    <span style="font-size: larger;color: red;"><b>PEST</b></span><br>
+                    {%if i.pestle == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.pestle}}</span>
+                    {%endif%}
+                </div>
+            </div>
+            <div class="col-sm-3" id="boxes">
+                <div style="background-color: burlywood;" class="p-2 border" id="box">
+                    <span style="font-size: larger;color: navy;"><b>Impact</b></span><br>
+                    {%if i.impact == "" %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">None</span>
+                    {% else %}
+                    <span style="margin-top: 2px;font-size: 1.3rem;">{{i.impact}}</span>
+                    {%endif%}
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <span style="font-size: large;margin: 1%;"><b>Article's Iframe</b></span>
+    <div style="border-style:solid ;border-color: black;margin: 1%;height: 400px">
+        <iframe src="{{i.url}}" title="article" style="height: 100%;width: 100%;border: none;"></iframe>
+    </div>
+    {% endfor%}
 </body>
 </html>
